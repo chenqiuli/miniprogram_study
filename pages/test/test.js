@@ -6,7 +6,50 @@ Page({
      */
     data: {
         value: '测试数据',
-        class: ['aaa', 'bbb', 'ccc']
+        class: ['aaa', 'bbb', 'ccc'],
+        list: [{
+            name: 'qiu1',
+            age: 1,
+        }, {
+            name: 'qiu2',
+            age: 18,
+        }, {
+            name: 'qiu3',
+            age: 182,
+        }, {
+            name: 'qiu4',
+            age: 183,
+        }],
+        isCreated: true,
+        isShow: true,
+    },
+
+    // handleBindTap(){ } es6的写法 
+    handleBindTap() {
+        console.log(this.data.value); // 获取data的数据
+        // 改变data的数据，跟react的diff算法一样
+        this.setData({
+            value: '陈秋丽',
+        })
+    },
+
+    handleCatchTap() {
+        this.setData({
+            isCreated: !this.data.isCreated,
+            isShow: !this.data.isShow
+        })
+    },
+
+    handleInnerTap(event) {
+        console.log('inner tap', event);
+    },
+
+    handleCenterTap(event) {
+        console.log('center tap', event);
+    },
+
+    handleOuterTap(event) {
+        console.log('outer tap', event);
     },
 
     /**

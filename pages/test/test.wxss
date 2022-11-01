@@ -1,1 +1,28 @@
 /* pages/test/test.wxss */
+
+.hidden {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible;
+}
+
+.outer {
+    margin: 10px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid pink;
+}
+
+.center {
+    width: 150px;
+    height: 150px;
+    border: 1px solid greenyellow;
+}
+
+.inner {
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+}

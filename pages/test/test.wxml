@@ -1,8 +1,52 @@
 <!--pages/test/test.wxml-->
 <text>pages/test/test.wxml</text>
-<view>{{20+10}}</view>
-<view>{{20>10?'aaa':'bbb'}}</view>
-<view>{{value}}</view>
-<view class="my-{{class[0]}}">aaa</view>
-<view class="my-{{class[1]}}">bbb</view>
-<view class="my-{{class[2]}}">ccc</view>
+<!-- 表达式 -->
+<view>{{ 20 + 10 }}</view>
+<!-- 三元表达式 -->
+<view>{{ 20 > 10 ? 'aaa' : 'bbb' }}</view>
+<!-- 变量 -->
+<view>{{ value }}</view>
+<!-- 属性同样支持变量 -->
+<view class="my-{{ class[0] }}">aaa</view>
+<view class="my-{{ class[1] }}">bbb</view>
+<view class="my-{{ class[2] }}">ccc</view>
+<!-- 列表渲染 -->
+<view wx:for="{{list}}" wx:key="index">
+    {{index}}：{{item.name}}-{{item.age}}
+</view>
+<view wx:for="{{list}}" wx:for-index="idx" wx:for-item="ele" wx:key="idx">
+    {{idx}}：{{ele.name}}-{{ele.age}}
+</view>
+<!-- 条件渲染 -->
+<!-- wx:if，元素会有局部渲染的过程，条件为false的时候，元素会从dom节点消失，适用于运行条件不大可能改变的场景 -->
+<view wx:if="{{isCreated}}">
+    我是动态创建和删除的-if
+</view>
+<view wx:else="{{isCreated}}">
+    我是动态创建和删除的-else
+</view>
+<!-- 也可用三元表达式表示，我使用了visibility:visible/hidden（占文档流）样式控制 -->
+<view class="{{isCreated ? 'show' :'hidden'}}">
+    我是动态创建和删除的
+</view>
+<!-- hidden其实就是display:block/none（不占文档流），dom元素一直在树上，一开始就被渲染了，适用于频繁切换的场景 -->
+<view hidden="{{isShow}}">
+    我是动态隐藏和显示的
+</view>
+
+
+<!-- 事件绑定，bindtap会向上冒泡 -->
+<button bindtap="handleBindTap" type="primary">点击1</button>
+<!-- 事件绑定，catchtap不会向上冒泡 -->
+<button catchtap="handleCatchTap" type="primary">点击2</button>
+<!-- 尝试使用区别一下bindtap和catchtap -->
+<!-- 点击inner view会触发handleInnerTap和handleCenterTap -->
+<!-- 点击center view只触发handleCenterTap -->
+<!-- 点击outer view只触发handleOuterTap -->
+<view bindtap="handleOuterTap" class="outer">
+    outer view
+    <view catchtap="handleCenterTap" class="center">
+        center view
+        <view bindtap="handleInnerTap" class="inner">inner view</view>
+    </view>
+</view>
