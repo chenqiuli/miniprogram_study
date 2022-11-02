@@ -1,1 +1,16 @@
 /* pages/home/home.wxss */
+.inputView{
+    display: flex;
+    justify-content: space-around;
+}
+.input {
+    border: 1px solid #f60;
+}
+
+.delete {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    padding: unset !important;
+    background-color: red;
+}

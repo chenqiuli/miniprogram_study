@@ -1,2 +1,25 @@
 <!--pages/home/home.wxml-->
-<text>pages/homeddd/home.wxml</text>
+<text>todolist</text>
+<view class="inputView">
+  <input
+    type="text"
+    class="input"
+    value="{{ inputValue }}"
+    placeholder="输入你的todolist"
+    bindinput="handleInput"
+  />
+  <button bindtap="handleTap" size="mini">点击</button>
+</view>
+
+<view wx:if="{{ list.length }}">
+  <view wx:for="{{ list }}" wx:key="index">
+    <text>{{ item }}</text>
+    <!-- 在标签上用data-xx，点击事件可拿到值 -->
+    <button class="delete" bindtap="handleDelete" data-id="{{ index }}">
+      删除
+    </button>
+  </view>
+</view>
+<view wx:else> 没有待办事项 </view>
+
+<view> 输入框实时输入的值：{{ inputValue }} </view>

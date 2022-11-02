@@ -5,7 +5,46 @@ Page({
      * 页面的初始数据
      */
     data: {
+        list: [
+            "上传学习强国积分",
+            "打卡知米背单词",
+            "撕掉祛疤贴再洗澡"
+        ],
+        inputValue: "",
+    },
 
+    handleInput(e) {
+        // console.log(e.detail.value,'输入框输入的值');
+        this.setData({
+            inputValue: e.detail.value
+        });
+    },
+
+    handleTap() {
+        const {
+            list,
+            inputValue
+        } = this.data;
+        if (inputValue.length) {
+            const newList = [...list, inputValue];
+            this.setData({
+                list: newList,
+                inputValue: ""
+            });
+        }
+    },
+
+    handleDelete(e) {
+        // 拿到标签上绑定的值
+        const id = e.target.dataset.id;
+        const newList = this.data.list.map((item, index) => {
+            if (index !== id) {
+                return item;
+            }
+        }).filter(item => item);
+        this.setData({
+            list: newList
+        });
     },
 
     /**

@@ -85,6 +85,7 @@
 
 ### 1.获取data：this.data
 ### 2.改变data：this.setData({})
+### 3.给事件传参：给元素绑定data-xxx，获取参数是event.target.dataset.xxx
 
 ```html
 <!-- 事件绑定，bindtap会向上冒泡 -->
@@ -132,4 +133,101 @@
     handleOuterTap(event) {
         console.log('outer tap', event);
     },
+```
+
+### 4.简单的todolist案例
+```html
+<text>todolist</text>
+<view class="inputView">
+  <input
+    type="text"
+    class="input"
+    value="{{ inputValue }}"
+    placeholder="输入你的todolist"
+    bindinput="handleInput"
+  />
+  <button bindtap="handleTap" size="mini">点击</button>
+</view>
+
+<view wx:if="{{ list.length }}">
+  <view wx:for="{{ list }}" wx:key="index">
+    <text>{{ item }}</text>
+    <!-- 在标签上用data-xx，点击事件可拿到值 -->
+    <button class="delete" bindtap="handleDelete" data-id="{{ index }}">
+      删除
+    </button>
+  </view>
+</view>
+<view wx:else> 没有待办事项 </view>
+
+<view> 输入框实时输入的值：{{ inputValue }} </view>
+```
+
+```css
+.inputView{
+    display: flex;
+    justify-content: space-around;
+}
+.input {
+    border: 1px solid #f60;
+}
+
+.delete {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    padding: unset !important;
+    background-color: red;
+}
+```
+
+```js
+Page({
+
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        list: [
+            "上传学习强国积分",
+            "打卡知米背单词",
+            "撕掉祛疤贴再洗澡"
+        ],
+        inputValue: "",
+    },
+
+    handleInput(e) {
+        // console.log(e.detail.value,'输入框输入的值');
+        this.setData({
+            inputValue: e.detail.value
+        });
+    },
+
+    handleTap() {
+        const {
+            list,
+            inputValue
+        } = this.data;
+        if (inputValue.length) {
+            const newList = [...list, inputValue];
+            this.setData({
+                list: newList,
+                inputValue: ""
+            });
+        }
+    },
+
+    handleDelete(e) {
+        // 拿到标签上绑定的值
+        const id = e.target.dataset.id;
+        const newList = this.data.list.map((item, index) => {
+            if (index !== id) {
+                return item;
+            }
+        }).filter(item => item);
+        this.setData({
+            list: newList
+        });
+    },
+})
 ```
