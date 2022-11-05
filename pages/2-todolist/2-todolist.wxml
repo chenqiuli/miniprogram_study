@@ -1,4 +1,3 @@
-<!--pages/home/home.wxml-->
 <text>todolist</text>
 <view class="inputView">
   <input

@@ -1,0 +1,17 @@
+<!--pages/5-wxs/5-wxs.wxml-->
+<view>把时间戳转换为年月日时分秒的格式</view>
+<!-- 小程序不支持这样调用js内的函数，只能绑定在事件上 -->
+<!-- <view>{{handleDate()}}</view> -->
+
+<!-- 获取js状态的值，传给wxs模块计算格式化时间戳 -->
+<wxs src="./utils.wxs" module="utils"></wxs>
+<view>{{utils.handleDate(timestamp)}}</view>
+
+<!-- 模糊查询 -->
+<view>模糊查询</view>
+<view>
+    <input type="text" placeholder="请搜索" value="{{textValue}}" bindinput="handleInput" class="input" />
+</view>
+<view wx:for="{{utils.filterDataList(dataList,textValue)}}" wx:key="index">
+    {{item}}
+</view>

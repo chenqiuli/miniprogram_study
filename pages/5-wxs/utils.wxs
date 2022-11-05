@@ -1,0 +1,23 @@
+// 把时间戳转换为年月日时分秒的格式
+function handleDate(timestamp) {
+    var year = getDate(timestamp).getFullYear();
+    var month = getDate(timestamp).getMonth() + 1;
+    var date = getDate(timestamp).getDate();
+    var hour = getDate(timestamp).getHours();
+    var minute = getDate(timestamp).getMinutes();
+    var second = getDate(timestamp).getSeconds();
+    return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
+};
+
+// 模糊查询
+function filterDataList(data, value) {
+    return data.filter(function (item) {
+        return item.indexOf(value) > -1;
+    });
+}
+
+module.exports = {
+    handleDate: handleDate,
+    filterDataList: filterDataList
+  };
+

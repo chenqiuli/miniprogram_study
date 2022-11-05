@@ -2,7 +2,7 @@
 
 ## 一、小程序开发流程
 
-### 1.[微信公众平台](https://mp.weixin.qq.com/)注册并登录生成 AppID
+### 1.[微信公众平台后台](https://mp.weixin.qq.com/)注册并登录生成 AppID
 
 ### 2.下载[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 
@@ -81,11 +81,15 @@
     }
 ```
 
-## 五、事件绑定
+## 五、事件绑定，获取视图状态，改变视图状态
 
-### 1.获取data：this.data
-### 2.改变data：this.setData({})
-### 3.给事件传参：给元素绑定data-xxx，获取参数是event.target.dataset.xxx
+### 1.获取 data：this.data
+
+### 2.改变 data：this.setData({})
+
+### 3.给事件传参：给元素绑定 data-xxx，获取参数是 event.target.dataset.xxx
+
+### 4.事件绑定事件只能用在事件上，不能用在双括号内，双括号内调用函数借助 wsx
 
 ```html
 <!-- 事件绑定，bindtap会向上冒泡 -->
@@ -103,6 +107,14 @@
     <view bindtap="handleInnerTap" class="inner">inner view</view>
   </view>
 </view>
+<!-- 点击事件传递参数 -->
+<view wx:for="{{ list }}" wx:key="index">
+  <text>{{ item }}</text>
+  <!-- 在标签上用data-xx，点击事件可拿到值 -->
+  <button class="delete" bindtap="handleDelete" data-id="{{ index }}">
+    删除
+  </button>
+</view>
 ```
 
 ```js
@@ -111,7 +123,7 @@
         console.log(this.data.value); // 获取data的数据
         // 改变data的数据，跟react的diff算法一样
         this.setData({
-            value: '陈秋丽',
+            value: 'cql',
         })
     },
 
@@ -133,101 +145,113 @@
     handleOuterTap(event) {
         console.log('outer tap', event);
     },
-```
-
-### 4.简单的todolist案例
-```html
-<text>todolist</text>
-<view class="inputView">
-  <input
-    type="text"
-    class="input"
-    value="{{ inputValue }}"
-    placeholder="输入你的todolist"
-    bindinput="handleInput"
-  />
-  <button bindtap="handleTap" size="mini">点击</button>
-</view>
-
-<view wx:if="{{ list.length }}">
-  <view wx:for="{{ list }}" wx:key="index">
-    <text>{{ item }}</text>
-    <!-- 在标签上用data-xx，点击事件可拿到值 -->
-    <button class="delete" bindtap="handleDelete" data-id="{{ index }}">
-      删除
-    </button>
-  </view>
-</view>
-<view wx:else> 没有待办事项 </view>
-
-<view> 输入框实时输入的值：{{ inputValue }} </view>
-```
-
-```css
-.inputView{
-    display: flex;
-    justify-content: space-around;
-}
-.input {
-    border: 1px solid #f60;
-}
-
-.delete {
-    display: inline-block;
-    width: 10px;
-    height: 20px;
-    padding: unset !important;
-    background-color: red;
-}
-```
-
-```js
-Page({
-
-    /**
-     * 页面的初始数据
-     */
-    data: {
-        list: [
-            "上传学习强国积分",
-            "打卡知米背单词",
-            "撕掉祛疤贴再洗澡"
-        ],
-        inputValue: "",
-    },
-
-    handleInput(e) {
-        // console.log(e.detail.value,'输入框输入的值');
-        this.setData({
-            inputValue: e.detail.value
-        });
-    },
-
-    handleTap() {
-        const {
-            list,
-            inputValue
-        } = this.data;
-        if (inputValue.length) {
-            const newList = [...list, inputValue];
-            this.setData({
-                list: newList,
-                inputValue: ""
-            });
-        }
-    },
 
     handleDelete(e) {
         // 拿到标签上绑定的值
         const id = e.target.dataset.id;
-        const newList = this.data.list.map((item, index) => {
-            if (index !== id) {
-                return item;
-            }
-        }).filter(item => item);
-        this.setData({
-            list: newList
-        });
+        console.log(id);
     },
-})
 ```
+
+## 六、wxss 语法
+
+### 跟 css 一样，部分不同：
+
+### 1.尺寸单位：rpx---微信小程序独有解决屏幕自适应的尺寸单位，规定屏幕宽度为 750rpx，使用 rpx 设置元素和字体的大小，在不同尺寸自动适配。官方建议以 iphone6 设计稿为标准，1rpx = 0.5px = 1 物理像素。iphone6 量出来的尺寸是多少 px，最终就以多少 rpx 为准 [原因](https://blog.csdn.net/weixin_41829477/article/details/104265054)
+
+### 2.样式导入
+
+```bash
+@import "common.wxss";
+```
+
+## 七、[wxs 语法](https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/)：小程序的一套脚本语言
+
+### 使用场景：当在 wxml 中，放在双大括号内的数据需要进行逻辑运算的时候，注意里面不能使用 js 的 es6 语法
+
+```html
+<!-- 获取js状态的值，传给wxs模块计算格式化时间戳 -->
+<wxs src="./utils.wxs" module="utils"></wxs>
+<view>{{utils.handleDate(timestamp)}}</view>
+
+<!-- 模糊查询 -->
+<view>模糊查询</view>
+<view>
+  <input
+    type="text"
+    placeholder="请搜索"
+    value="{{textValue}}"
+    bindinput="handleInput"
+    class="input"
+  />
+</view>
+<view wx:for="{{utils.filterDataList(dataList,textValue)}}" wx:key="index">
+  {{item}}
+</view>
+```
+
+```js
+// 5-wxs.js
+data: {
+    textValue: "",
+    timestamp: 1667550940096,
+    dataList: ["cherry", "alex", "chris", "niki", "jake", "eric", "annie"]
+},
+// utils.wsx
+// 把时间戳转换为年月日时分秒的格式
+function handleDate(timestamp) {
+    var year = getDate(timestamp).getFullYear();
+    var month = getDate(timestamp).getMonth() + 1;
+    var date = getDate(timestamp).getDate();
+    var hour = getDate(timestamp).getHours();
+    var minute = getDate(timestamp).getMinutes();
+    var second = getDate(timestamp).getSeconds();
+    return year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
+};
+
+// 模糊查询
+function filterDataList(data, value) {
+    return data.filter(function (item) {
+        return item.indexOf(value) > -1;
+    });
+}
+
+module.exports = {
+    handleDate: handleDate,
+    filterDataList: filterDataList
+};
+```
+
+## 八、[数据请求](https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html)
+
+### 1.使用微信自带的 api：wx.request、wx.uploadFile、wx.downloadFile，只能请求 https 协议的，wx.connectSocket，只能请求 wss 协议的
+
+### 2.微信小程序不是浏览器，是一个带有浏览器内核的 webview，因此不存在跨域限制，跨域是由于浏览器的同源策略导致的，协议，域名，端口不同，会导致跨域
+
+### 3.不存在跨域，但是需要配置[服务安全域名](https://mp.weixin.qq.com/wxamp/devprofile/get_profile?token=1994225168&lang=zh_CN)，应用到小程序中
+
+![](./assets/md/配置域名.png)
+![](./assets/md/域名.png)
+
+```js
+wx.request({
+  url: "example.php", //仅为示例，并非真实的接口地址
+  data: {
+    x: "",
+    y: "",
+  },
+  header: {
+    "content-type": "application/json", // 默认值
+  },
+  success: (res) => {
+    // 使用箭头函数，让this与上下文一致，才可以使用this.setData
+    this.setData({
+      dataList: res.data.data.hot,
+    });
+  },
+});
+```
+
+### 4.调用自己本地的接口，需要先打开不校验合法域名开关，才可以调通
+
+![](./assets/md/1.png)

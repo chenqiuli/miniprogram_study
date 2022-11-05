@@ -1,0 +1,7 @@
+/* pages/4-wxss/4-wxss.wxss */
+
+view {
+    width: 750rpx;
+    height: 400rpx;
+    background-color: rebeccapurple;
+}

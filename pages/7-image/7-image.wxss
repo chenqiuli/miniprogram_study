@@ -1,0 +1,5 @@
+/* pages/7-image/7-image.wxss */
+
+image {
+    width: 600rpx;
+}

@@ -1,0 +1,4 @@
+/* pages/5-wxs/5-wxs.wxss */
+.input {
+    border: 1px solid #f60;
+}

@@ -1,8 +1,8 @@
 {
     "pages": [
-        "pages/home/home",
-        "pages/test/test",
-        "pages/mine/mine"
+        "pages/6-request/6-request",
+        "pages/my/my",
+        "pages/shouye/shouye"
     ],
     "window": {
         "backgroundTextStyle": "dark",
@@ -12,20 +12,20 @@
     },
     "tabBar": {
         "list": [{
-            "pagePath": "pages/test/test",
+            "pagePath": "pages/6-request/6-request",
             "text": "测试",
             "iconPath": "assets/images/test.png",
             "selectedIconPath": "assets/images/test_selected.png"
         }, {
-            "pagePath": "pages/home/home",
-            "text": "首页",
-            "iconPath": "assets/images/home.png",
-            "selectedIconPath": "assets/images/home_selected.png"
-        }, {
-            "pagePath": "pages/mine/mine",
+            "pagePath": "pages/my/my",
             "text": "我的",
             "iconPath": "assets/images/mine.png",
             "selectedIconPath": "assets/images/mine_selected.png"
+        }, {
+            "pagePath": "pages/shouye/shouye",
+            "text": "首页",
+            "iconPath": "assets/images/home.png",
+            "selectedIconPath": "assets/images/home_selected.png"
         }],
         "borderStyle": "white",
         "selectedColor": "#14c145",

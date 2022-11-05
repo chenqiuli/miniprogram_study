@@ -1,4 +1,4 @@
-<!--pages/test/test.wxml-->
+<!--pages/1-test/1-test.wxml-->
 <text>pages/test/test.wxml</text>
 <!-- 表达式 -->
 <view>{{ 20 + 10 }}</view>

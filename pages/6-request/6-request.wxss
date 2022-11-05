@@ -1,0 +1,55 @@
+/* pages/6-request/6-request.wxss */
+.item {
+    padding: 20rpx;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    padding-left: 14rpx;
+}
+
+.container .nm {
+    color: #333;
+    font-size: 32rpx;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 410rpx;
+}
+
+.container view:not(.nm) {
+    color: #666;
+    font-size: 30rpx;
+    margin-top: 6rpx;
+}
+
+.container text {
+    color: #faaf00;
+    font-weight: 700;
+    font-size: 32rpx;
+    margin-left: 6rpx;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.button button {
+    border-radius: 30rpx;
+    color: #ffffff;
+    width: 108rpx;
+    height: 56rpx;
+    line-height: 56rpx !important;
+    text-align: center;
+}
+
+
+view image {
+    width: 128rpx;
+}

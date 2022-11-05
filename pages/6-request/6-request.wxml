@@ -1,0 +1,22 @@
+<!--pages/6-request/6-request.wxml-->
+
+<button type="primary" bindtap="handleAjax">ajax</button>
+
+<view wx:for="{{dataList}}" wx:key="index" class="item">
+    <image src="{{item.img}}" mode="widthFix"></image>
+    <view class="container">
+        <view class="nm">{{item.nm}}</view>
+        <view wx:if="{{item.showStateButton.content === '购票' && item.mk}}">
+            观众评<text>{{item.mk}}</text>
+        </view>
+        <view wx:elif="{{item.showStateButton.content === '预售' && item.wish}}">
+            <text>{{item.wish}}</text>人想看
+        </view>
+        <view wx:else="{{item.mk}}">暂无评分</view>
+        <view>{{item.desc}}</view>
+        <view>今天{{item.showCinemaNum}}家影院放映{{item.showNum}}场</view>
+    </view>
+    <view class="button">
+        <button size="mini" class="button" style="background-color: {{item.showStateButton.color}};">{{item.showStateButton.content}}</button>
+    </view>
+</view>

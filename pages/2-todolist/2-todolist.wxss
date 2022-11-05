@@ -1,4 +1,3 @@
-/* pages/home/home.wxss */
 .inputView{
     display: flex;
     justify-content: space-around;

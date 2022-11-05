@@ -1,4 +1,4 @@
-// pages/mine/mine.js
+// pages/shouye/shouye.js
 Page({
 
     /**

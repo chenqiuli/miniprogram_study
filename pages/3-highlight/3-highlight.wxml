@@ -1,0 +1,11 @@
+<text>选项卡高亮demo</text>
+
+<view class="tablist">
+    <button wx:for="{{tablist}}" wx:key="index" bindtap="handleTap" type="{{idx === index ? 'primary' : 'default'}}" size="mini" data-id="{{index}}">{{item.day}}</button>
+</view>
+
+
+<view class="box">
+    我今天准备吃的东西是：
+    <view>{{tablist[idx].work}}</view>
+</view>
