@@ -1,0 +1,15 @@
+/* pages/8-scrollview/8-scrollview.wxss */
+
+.box view { 
+    height: 400rpx;
+    background: pink;
+    border: 1px solid #ccc;
+}
+
+.box2 view {
+    width: 300rpx;
+    height:200rpx;
+    background: pink;
+    border: 1px solid #ccc;
+    flex-shrink: 0;
+}

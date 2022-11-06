@@ -1,6 +1,6 @@
 {
     "pages": [
-        "pages/6-request/6-request",
+        "pages/9-checkbox/9-checkbox",
         "pages/my/my",
         "pages/shouye/shouye"
     ],
@@ -12,7 +12,7 @@
     },
     "tabBar": {
         "list": [{
-            "pagePath": "pages/6-request/6-request",
+            "pagePath": "pages/9-checkbox/9-checkbox",
             "text": "测试",
             "iconPath": "assets/images/test.png",
             "selectedIconPath": "assets/images/test_selected.png"

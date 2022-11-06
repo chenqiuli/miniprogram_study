@@ -1,0 +1,10 @@
+/* pages/7-swiper/7-swiper.wxss */
+
+image {
+    width: 100%;
+}
+
+swiper {
+    /* swiper默认高度150px，以iphone6为样式参考，适配所有机型的轮播图 */
+    height: 300rpx;
+}

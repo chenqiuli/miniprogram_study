@@ -255,3 +255,100 @@ wx.request({
 ### 4.调用自己本地的接口，需要先打开不校验合法域名开关，才可以调通
 
 ![](./assets/md/1.png)
+
+## 九、[常用组件](https://developers.weixin.qq.com/miniprogram/dev/component/)
+
+### 1、swiper
+
+```html
+<swiper
+  circular="{{true}}"
+  indicator-dots="{{true}}"
+  autoplay="{{true}}"
+  interval="{{2000}}"
+  duration="{{500}}"
+>
+  <swiper-item wx:for="{{swiperList}}" wx:key="index">
+    <image src="{{item.image_url}}" mode="widthFix" class="image"></image>
+  </swiper-item>
+</swiper>
+```
+
+```css
+image {
+  width: 100%;
+}
+
+swiper {
+  /* swiper默认高度150px，以iphone6为样式参考，适配所有机型的轮播图 */
+  height: 300rpx;
+}
+```
+
+### 2、scroll-view
+
+```html
+<view>纵向滚动</view>
+<scroll-view
+  class="box"
+  scroll-y="{{true}}"
+  style="height: 300rpx;"
+  bindscrolltolower="handleLower"
+  refresher-enabled="{{true}}"
+  bindrefresherrefresh="handleRefresh"
+  refresher-triggered="{{isRefresh}}"
+>
+  <view>1111</view>
+  <view>2222</view>
+  <view>3333</view>
+</scroll-view>
+
+<view>横向滚动</view>
+<scroll-view
+  class="box2"
+  enable-flex="{{true}}"
+  scroll-x="{{true}}"
+  style="width: 600rpx;height:200rpx;display: flex;"
+  bindscrolltolower="handleRight"
+>
+  <view>aaa</view>
+  <view>bbb</view>
+  <view>ccc</view>
+  <view>ddd</view>
+</scroll-view>
+```
+
+```css
+.box view {
+  height: 400rpx;
+  background: pink;
+  border: 1px solid #ccc;
+}
+
+.box2 view {
+  width: 300rpx;
+  height: 200rpx;
+  background: pink;
+  border: 1px solid #ccc;
+  flex-shrink: 0;
+}
+```
+
+```js
+handleLower() {
+        console.log("到底了");
+},
+
+    handleRefresh() {
+        console.log("上拉刷新了");
+        setTimeout(() => {
+            this.setData({
+                isRefresh: false
+            });
+        }, 2000);
+    },
+
+    handleRight() {
+        console.log("滚动到右边了");
+    },
+```
