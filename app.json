@@ -1,6 +1,6 @@
 {
     "pages": [
-        "pages/12-lifetimes/12-lifetimes",
+        "pages/6-request/6-request",
         "pages/my/my",
         "pages/shouye/shouye"
     ],
@@ -12,7 +12,7 @@
     },
     "tabBar": {
         "list": [{
-            "pagePath": "pages/12-lifetimes/12-lifetimes",
+            "pagePath": "pages/6-request/6-request",
             "text": "测试",
             "iconPath": "assets/images/test.png",
             "selectedIconPath": "assets/images/test_selected.png"
