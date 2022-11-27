@@ -1,0 +1,5 @@
+<!--components/count/Count.wxml-->
+
+
+<view>{{count}}</view>
+

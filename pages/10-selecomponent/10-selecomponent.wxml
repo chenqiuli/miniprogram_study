@@ -1,0 +1,13 @@
+<!--pages/10-selecomponent/10-selecomponent.wxml-->
+<view>父组件引入自定义组件</view>
+<view>父子组件通信</view>
+
+<navbar list="{{list}}" current="{{current}}" bindParentEvent="handleParent"></navbar>
+
+
+<swiper bindchange="handleSwiper" current="{{current}}">
+    <swiper-item wx:for="{{swiperList}}" wx:key="index" class="swiperItem">
+        {{item}}
+    </swiper-item>
+</swiper>
+<!-- slot 作为组件的复用，同时避免了一些通信问题，slot在父组件中，直接控制另一个子组件 -->

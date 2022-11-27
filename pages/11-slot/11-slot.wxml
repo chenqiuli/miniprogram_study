@@ -1,0 +1,12 @@
+<!--pages/11-slot/11-slot.wxml-->
+<view class="title">在子组件中使用插槽-slot</view>
+<view class="title">点击返回按钮，让footer组件动态显隐</view>
+
+<TopHeader>
+<!-- 插槽是直接定义在父组件上，所以可以访问到父组件的实例-this -->
+    <button slot="before" bindtap="handleTap">返回</button>
+    <button slot="after">首页</button>
+</TopHeader>
+
+
+<Footer wx:if="{{isShow}}"></Footer>

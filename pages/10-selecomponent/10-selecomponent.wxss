@@ -1,0 +1,4 @@
+/* pages/10-selecomponent/10-selecomponent.wxss */
+.swiperItem {
+    background: pink;
+}

@@ -13,8 +13,6 @@
             <view class="operate_view">
                 <text class="price">￥{{item.price}}</text>
                 <view class="operate_btn">
-                    <view>{{item.num}}</view>
-                    <view>{{item.isChecked}}</view>
                     <button type="default" size="mini" data-id="{{index}}" bindtap="handleSub" disabled="{{item.num === 1}}">-</button>
                     <input type="number" value="{{item.num}}" class="input" data-id="{{index}}" bindblur="handleBlur" />
                     <button type="default" size="mini" data-id="{{index}}" bindtap="handleAdd">+</button>

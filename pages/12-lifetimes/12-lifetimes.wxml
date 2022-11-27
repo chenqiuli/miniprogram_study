@@ -1,0 +1,4 @@
+<!--pages/12-lifetimes/12-lifetimes.wxml-->
+
+<view>抢购倒计时</view>
+<Count bindParent="handleParent" wx:if="{{isCreated}}"></Count>

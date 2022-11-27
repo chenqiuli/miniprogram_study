@@ -1,0 +1,5 @@
+/* components/topHeader/TopHeader.wxss */
+.box {
+    display: flex;
+    
+}

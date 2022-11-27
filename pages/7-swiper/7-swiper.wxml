@@ -3,6 +3,6 @@
 
 <swiper circular="{{true}}" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{2000}}" duration="{{500}}">
     <swiper-item wx:for="{{swiperList}}" wx:key="index">
-        <image src="{{item.image_url}}" mode="widthFix" class="image"></image>
+        <image src="{{item.image_url}}" mode="widthFix"></image>
     </swiper-item>
 </swiper>

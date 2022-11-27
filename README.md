@@ -167,7 +167,7 @@
 
 ## 七、[wxs 语法](https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/)：小程序的一套脚本语言
 
-### 使用场景：当在 wxml 中，放在双大括号内的数据需要进行逻辑运算的时候，注意里面不能使用 js 的 es6 语法
+### 使用场景：当在 wxml 中，放在双大括号内的数据需要进行逻辑运算的时候，注意wsx里面不能使用 js 的 es6 语法
 
 ```html
 <!-- 获取js状态的值，传给wxs模块计算格式化时间戳 -->
@@ -196,6 +196,11 @@ data: {
     textValue: "",
     timestamp: 1667550940096,
     dataList: ["cherry", "alex", "chris", "niki", "jake", "eric", "annie"]
+},
+handleInput(event) {
+    this.setData({
+        textValue: event.detail.value
+    });
 },
 // utils.wsx
 // 把时间戳转换为年月日时分秒的格式
@@ -335,20 +340,173 @@ swiper {
 ```
 
 ```js
-handleLower() {
-        console.log("到底了");
+/**
+ * 页面的初始数据
+ */
+data: {
+    isRefresh: false,
+    idx: 1,
 },
 
-    handleRefresh() {
-        console.log("上拉刷新了");
-        setTimeout(() => {
-            this.setData({
-                isRefresh: false
-            });
-        }, 2000);
-    },
+handleLower() {
+    console.log("到底了");
+},
 
-    handleRight() {
-        console.log("滚动到右边了");
+handleRefresh() {
+    console.log("上拉刷新了");
+    setTimeout(() => {
+        this.setData({
+            isRefresh: false
+        });
+    }, 2000);
+},
+
+handleRight() {
+    console.log("滚动到右边了");
+},
+```
+### 3、checkbox
+
+## 十、[自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)
+
+### 1.封装自定义组件：在项目根目录新建components文件夹，内以每个组件名字命名文件夹，每个文件夹内还是跟pages一样的结构，在每个文件夹内新建Component选项，键入组件名（组件名一般首字母大写）不用后缀，会自动出现对应的wxml、wxss、json、js文件
+
+![](./assets/md/自定义组件.png)
+
+### 2.在pages页面中引入自定义组件
+
+![](./assets/md/使用自定义组件.png)
+
+### 3.父组件与子组件通信：引入子组件后，通过在子组件上传属性值。然后在子组件接收属性并使用
+### 4.子组件与父组件通信，只能在父组件上定义bindxxx事件，子组件调用父组件的回调函数并传递参数给父组件。bindParentEvent就是
+
+```html
+<!-- 父 -->
+<navbar list="{{list}}" current="{{current}}" bindParentEvent="handleParent"></navbar>
+```
+
+```js
+// 父
+data: {
+    list: ['上衣','鞋子','裙子', '裤子'],
+    swiperList: ['上衣的','鞋子的','裙子的', '裤子的'],
+    current: 0,
+},
+
+// 父组件监听子组件传过来的值，event.detail是子组件传递的值
+handleParent(event) {
+    // console.log("监听到了子组件", event.detail);
+    this.setData({
+        current: event.detail
+    });
+},
+```
+
+```js
+// 子
+/**
+ * 组件的属性列表，接收父组件的属性
+ */
+properties: {
+    list: {
+        type: Array,
+        value: ["即将上映","已经上映"],
     },
+    current: {
+        type: Number,
+        value: 0,
+    }
+},
+
+/**
+ * 组件的方法列表
+ */
+methods: {
+    handleTap(event) {
+        // 子组件与父组件通信：触发父组件定义的参数，回调传递给父组件
+        this.triggerEvent("ParentEvent", event.target.dataset.index)
+    }
+}
+```
+
+```html
+<!-- 子 -->
+<view class="box">
+    <view wx:for="{{list}}" wx:key="index" class="item {{current === index ? 'active': ''}}" bindtap="handleTap" data-index="{{index}}">{{item}}</view>
+</view>
+```
+
+### 5.slot：插槽。slot 作为组件的复用，同时可以避免一些通信问题，slot在父组件中，可以访问父组件的this。 当子组件开发好了，父组件引用的时候，想在子组件中传入html结构的代码，就要在子组件中预留slot的位置。默认支持一个插槽，如果想要多个插槽，slot上添加name值，一一对应。
+
+#### （1）使用单个插槽
+```html
+<!-- 子组件TopHeader -->
+<text>topHeader</text>
+
+<slot></slot>
+
+<!-- 父组件 -->
+<TopHeader>
+    <view>我是一个插槽，插到子组件中的</view>
+</TopHeader>
+```
+
+#### （2）使用多个插槽，需要开始多插槽机制，两个子组件通过slot通信
+
+```html
+<!-- 父 -->
+<view class="title">点击返回按钮，让footer组件动态显隐</view>
+
+<TopHeader>
+<!-- 插槽是直接定义在父组件上，所以可以访问到父组件的实例-this -->
+    <button slot="before" bindtap="handleTap">返回</button>
+    <button slot="after">首页</button>
+</TopHeader>
+
+<Footer wx:if="{{isShow}}"></Footer>
+```
+
+```js
+// 父
+data: {
+    isShow: false,
+},
+
+handleTap() {
+    this.setData({
+        isShow: !this.data.isShow
+    });
+},
+```
+
+```html
+<!-- topHeader子 -->
+<view class="box">
+    <slot name="before"></slot>
+    <text>topHeader</text>
+    <slot name="after"></slot>
+</view>
+<!-- footer子 -->
+<view class="footer"></view>
+```
+
+```js
+// topHeader子 
+options: {
+    multipleSlots: true // 在组件定义时的选项中启用多 slot 支持
+},
+```
+
+
+### 6、组件的生命周期，常用的有attached和detached。attached是在组件实例被挂载的时候执行，detached是组件实例被卸载的时候执行。
+
+```js
+lifetimes: {
+    attached: function(){
+        // 在组件实例进入页面节点树时执行
+    },
+    detached: function() {
+        // 在组件实例被从页面节点树移除时执行
+    }
+},
 ```
