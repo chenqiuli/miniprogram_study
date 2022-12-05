@@ -24,9 +24,26 @@
 
 ### 2.window 的配置：导航栏，下拉刷新，loading 样式
 
-### 3.底部 tabBar 的配置：lists，borderStyle，selectedColor，color，backgroundColor
+### 3.[底部 tabBar 的配置](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#tabBar)：lists，borderStyle，selectedColor，color，backgroundColor)
 
 ### 4.每个页面的 json 文件可重新配置 app.json 中 window 的属性，达到覆盖的作用
+
+```json
+"tabBar": {
+  "list": [{
+    "pagePath": "pages/home/home",
+    "text": "首页",
+    "iconPath": "./assets/images/home.png",
+    "selectedIconPath": "./assets/images/home_selected.png"
+  }, {
+    "pagePath": "pages/logs/logs",
+    "text": "日志",
+    "iconPath": "./assets/images/test.png",
+    "selectedIconPath": "./assets/images/test_selected.png"
+  }],
+  "borderStyle": "white"
+},
+```
 
 ## 四、数据绑定：双大括号
 
@@ -167,7 +184,7 @@
 
 ## 七、[wxs 语法](https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/)：小程序的一套脚本语言
 
-### 使用场景：当在 wxml 中，放在双大括号内的数据需要进行逻辑运算的时候，注意wsx里面不能使用 js 的 es6 语法
+### 使用场景：当在 wxml 中，放在双大括号内的数据需要进行逻辑运算的时候，注意 wsx 里面不能使用 js 的 es6 语法
 
 ```html
 <!-- 获取js状态的值，传给wxs模块计算格式化时间戳 -->
@@ -240,13 +257,13 @@ module.exports = {
 
 ```js
 wx.request({
-  url: "example.php", //仅为示例，并非真实的接口地址
+  url: 'example.php', //仅为示例，并非真实的接口地址
   data: {
-    x: "",
-    y: "",
+    x: '',
+    y: '',
   },
   header: {
-    "content-type": "application/json", // 默认值
+    'content-type': 'application/json', // 默认值
   },
   success: (res) => {
     // 使用箭头函数，让this与上下文一致，才可以使用this.setData
@@ -264,6 +281,11 @@ wx.request({
 ## 九、[常用组件](https://developers.weixin.qq.com/miniprogram/dev/component/)
 
 ### 1、swiper
+
+| 模式      | swiper 样式    | swiper image 样式        | 解释                                                                                           |
+| --------- | -------------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
+| widthFix  | height:296rpx; | width:100%;              | 缩放模式，宽度不变，高度自动变化，保持原图宽高比不变 以 iphone6 为参考                         |
+| aspectFit | height:200px;  | width:100%;height:200px; | 缩放模式，保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。 |
 
 ```html
 <swiper
@@ -365,24 +387,30 @@ handleRight() {
     console.log("滚动到右边了");
 },
 ```
+
 ### 3、checkbox
 
 ## 十、[自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/)
 
-### 1.封装自定义组件：在项目根目录新建components文件夹，内以每个组件名字命名文件夹，每个文件夹内还是跟pages一样的结构，在每个文件夹内新建Component选项，键入组件名（组件名一般首字母大写）不用后缀，会自动出现对应的wxml、wxss、json、js文件
+### 1.封装自定义组件：在项目根目录新建 components 文件夹，内以每个组件名字命名文件夹，每个文件夹内还是跟 pages 一样的结构，在每个文件夹内新建 Component 选项，键入组件名（组件名一般首字母大写）不用后缀，会自动出现对应的 wxml、wxss、json、js 文件
 
 ![](./assets/md/自定义组件.png)
 
-### 2.在pages页面中引入自定义组件
+### 2.在 pages 页面中引入自定义组件
 
 ![](./assets/md/使用自定义组件.png)
 
 ### 3.父组件与子组件通信：引入子组件后，通过在子组件上传属性值。然后在子组件接收属性并使用
-### 4.子组件与父组件通信，只能在父组件上定义bindxxx事件，子组件调用父组件的回调函数并传递参数给父组件。bindParentEvent就是
+
+### 4.子组件与父组件通信，只能在父组件上定义 bindxxx 事件，子组件调用父组件的回调函数并传递参数给父组件。bindParentEvent 就是
 
 ```html
 <!-- 父 -->
-<navbar list="{{list}}" current="{{current}}" bindParentEvent="handleParent"></navbar>
+<navbar
+  list="{{list}}"
+  current="{{current}}"
+  bindParentEvent="handleParent"
+></navbar>
 ```
 
 ```js
@@ -432,13 +460,21 @@ methods: {
 ```html
 <!-- 子 -->
 <view class="box">
-    <view wx:for="{{list}}" wx:key="index" class="item {{current === index ? 'active': ''}}" bindtap="handleTap" data-index="{{index}}">{{item}}</view>
+  <view
+    wx:for="{{list}}"
+    wx:key="index"
+    class="item {{current === index ? 'active': ''}}"
+    bindtap="handleTap"
+    data-index="{{index}}"
+    >{{item}}</view
+  >
 </view>
 ```
 
-### 5.slot：插槽。slot 作为组件的复用，同时可以避免一些通信问题，slot在父组件中，可以访问父组件的this。 当子组件开发好了，父组件引用的时候，想在子组件中传入html结构的代码，就要在子组件中预留slot的位置。默认支持一个插槽，如果想要多个插槽，slot上添加name值，一一对应。
+### 5.slot：插槽。slot 作为组件的复用，同时可以避免一些通信问题，slot 在父组件中，可以访问父组件的 this。 当子组件开发好了，父组件引用的时候，想在子组件中传入 html 结构的代码，就要在子组件中预留 slot 的位置。默认支持一个插槽，如果想要多个插槽，slot 上添加 name 值，一一对应。
 
 #### （1）使用单个插槽
+
 ```html
 <!-- 子组件TopHeader -->
 <text>topHeader</text>
@@ -447,23 +483,23 @@ methods: {
 
 <!-- 父组件 -->
 <TopHeader>
-    <view>我是一个插槽，插到子组件中的</view>
+  <view>我是一个插槽，插到子组件中的</view>
 </TopHeader>
 ```
 
-#### （2）使用多个插槽，需要开始多插槽机制，两个子组件通过slot通信
+#### （2）使用多个插槽，需要开始多插槽机制，两个子组件通过 slot 通信
 
 ```html
 <!-- 父 -->
 <view class="title">点击返回按钮，让footer组件动态显隐</view>
 
 <TopHeader>
-<!-- 插槽是直接定义在父组件上，所以可以访问到父组件的实例-this -->
-    <button slot="before" bindtap="handleTap">返回</button>
-    <button slot="after">首页</button>
+  <!-- 插槽是直接定义在父组件上，所以可以访问到父组件的实例-this -->
+  <button slot="before" bindtap="handleTap">返回</button>
+  <button slot="after">首页</button>
 </TopHeader>
 
-<Footer wx:if="{{isShow}}"></Footer>
+<footer wx:if="{{isShow}}"></footer>
 ```
 
 ```js
@@ -482,23 +518,22 @@ handleTap() {
 ```html
 <!-- topHeader子 -->
 <view class="box">
-    <slot name="before"></slot>
-    <text>topHeader</text>
-    <slot name="after"></slot>
+  <slot name="before"></slot>
+  <text>topHeader</text>
+  <slot name="after"></slot>
 </view>
 <!-- footer子 -->
 <view class="footer"></view>
 ```
 
 ```js
-// topHeader子 
+// topHeader子
 options: {
     multipleSlots: true // 在组件定义时的选项中启用多 slot 支持
 },
 ```
 
-
-### 6、组件的生命周期，常用的有attached和detached。attached是在组件实例被挂载的时候执行，detached是组件实例被卸载的时候执行。
+### 6、组件的生命周期，常用的有 attached 和 detached。attached 是在组件实例被挂载的时候执行，detached 是组件实例被卸载的时候执行。
 
 ```js
 lifetimes: {
@@ -515,60 +550,135 @@ lifetimes: {
 
 ```js
 Page({
-    /**
-     * 生命周期函数--监听页面加载，请求ajax接口 ，只会执行一次
-     */
-    onLoad(options) {
-        console.log("onLoad");
-    },
+  /**
+   * 生命周期函数--监听页面加载，请求ajax接口 ，只会执行一次
+   */
+  onLoad(options) {
+    console.log('onLoad');
+  },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成，只会执行一次
-     */
-    onReady() {
-        console.log("onReady");
-    },
+  /**
+   * 生命周期函数--监听页面初次渲染完成，只会执行一次
+   */
+  onReady() {
+    console.log('onReady');
+  },
 
-    /**
-     * 生命周期函数--监听页面显示，每次切换页面都会走
-     */
-    onShow() {
-        console.log("onShow");
-    },
+  /**
+   * 生命周期函数--监听页面显示，每次切换页面都会走
+   */
+  onShow() {
+    console.log('onShow');
+  },
 
-    /**
-     * 生命周期函数--监听页面隐藏，每次切换页面都会走
-     */
-    onHide() {
-        console.log("onHide");
-    },
+  /**
+   * 生命周期函数--监听页面隐藏，每次切换页面都会走
+   */
+  onHide() {
+    console.log('onHide');
+  },
 
-    /**
-     * 生命周期函数--监听页面卸载，只会执行一次
-     */
-    onUnload() {
-        console.log("onUnload");
-    },
+  /**
+   * 生命周期函数--监听页面卸载，只会执行一次
+   */
+  onUnload() {
+    console.log('onUnload');
+  },
 
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {},
 
-    },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom() {},
 
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {},
+});
+```
 
-    },
+## 十二、[扩展组件](https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/en/extended/component-plus/)使用
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {
+### 需要 npm init 先初始化生成 package.json 文件，然后 npm 安装组件，引入组件，然后遇到报错，因为没有构建 npm，点一下构建就好了。需要注意的是每次 npm install 一个组件都需要构建一次。
 
+```bash
+npm init
+npm install @miniprogram-component-plus/sticky
+// page.json
+{
+    "usingComponents": {
+        "mp-sticky": "@miniprogram-component-plus/sticky"
     }
-})
+}
+```
+
+![](./assets/md/报错.png)
+![](./assets/md/构建npm.png)
+
+## 十三、页面跳转
+
+| 方法          | 解释                                                               |
+| ------------- | ------------------------------------------------------------------ |
+| wx.navigateTo | 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面     |
+| wx.redirectTo | 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面 |
+| wx.switchTab  | 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面                   |
+
+```js
+// home.js
+handleDetail(e) {
+  const id = e.currentTarget.dataset.id;
+  const title = e.currentTarget.dataset.title;
+  wx.navigateTo({
+    url: `/pages/detail/detail?id=${id}&title=${title}`,
+  });
+}
+// detail.js
+onLoad(options) {
+  // options是接收跳转的参数
+  console.log(options);
+  // 动态设置小程序标题
+  wx.setNavigationBarTitle({
+    title: options.title,
+  })
+},
+```
+
+## 十四、从列表页进入详情页，有时候为了方便调试详情页，不想每次重新编译都要从列表页重新点进去，可以进入详情页后选择添加编译模式，方便开发。
+
+![](./assets/md/%E6%B7%BB%E5%8A%A0%E7%BC%96%E8%AF%91%E6%A8%A1%E5%BC%8F.png)
+
+## 十五、一些常用的 api
+
+| api                      | 说明                   |
+| ------------------------ | ---------------------- |
+| wx.previewImage          | 在新页面中全屏预览图片 |
+| wx.showLoading           | 显示 loading           |
+| wx.hideLoading           | 隐藏 loading           |
+| wx.stopPullDownRefresh   | 停止下拉               |
+| wx.setNavigationBarTitle | 动态设置当前页面的标题 |
+
+## 十六、引入 weui 组件库
+
+### 1、[在 app.json 文件中引入 weui 组件库](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#useExtendedLib)
+
+```json
+"useExtendedLib": {
+    "weui": true
+}
+```
+
+### 2、在每个页面的 json 文件中按需引入相应的组件，在 wxml 使用
+
+```json
+{
+  "usingComponents": {
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar"
+  },
+  "navigationBarTitleText": "搜索"
+}
 ```
