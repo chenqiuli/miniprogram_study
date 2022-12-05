@@ -622,11 +622,12 @@ npm install @miniprogram-component-plus/sticky
 
 ## 十三、页面跳转
 
-| 方法          | 解释                                                               |
-| ------------- | ------------------------------------------------------------------ |
-| wx.navigateTo | 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面     |
-| wx.redirectTo | 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面 |
-| wx.switchTab  | 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面                   |
+| 方法            | 解释                                                               |
+| --------------- | ------------------------------------------------------------------ |
+| wx.navigateTo   | 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面     |
+| wx.redirectTo   | 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面 |
+| wx.switchTab    | 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面                   |
+| wx.navigateBack | 回退几级                                                           |
 
 ```js
 // home.js
@@ -661,6 +662,11 @@ onLoad(options) {
 | wx.hideLoading           | 隐藏 loading           |
 | wx.stopPullDownRefresh   | 停止下拉               |
 | wx.setNavigationBarTitle | 动态设置当前页面的标题 |
+| wx.showToast             | 显示提示信息           |
+| wx.showModal             | 显示模态框             |
+| wx.getUserProfile        | 获取微信授权           |
+| wx.setStorageSync        | 存储信息至本地存储     |
+| wx.getStorageSync        | 获取本地存储信息       |
 
 ## 十六、引入 weui 组件库
 
