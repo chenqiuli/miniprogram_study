@@ -688,3 +688,156 @@ onLoad(options) {
   "navigationBarTitleText": "搜索"
 }
 ```
+
+## 十七、云开发
+
+### 1. 开启云开发环境
+
+![](./assets/md/%E4%BA%91%E5%BC%80%E5%8F%91%E5%85%A5%E5%8F%A3.PNG)
+
+### 2. 云开发概览，有四部分：
+
+#### 云函数：处理数据，返回数据
+
+#### 云数据库：可以永久储存数据，如果云环境还没过期的话
+
+#### 云存储：一般是用来存放文件
+
+![](./assets/md/%E4%BA%91%E5%BC%80%E5%8F%91%E6%A6%82%E8%A7%88.PNG)
+
+### 3. 查看环境 id 入口
+
+![](./assets/md/%E7%8E%AF%E5%A2%83id%E5%85%A5%E5%8F%A3.PNG)
+
+### 4. 项目全局初始化云环境
+
+```js
+// app.js
+onLaunch() {
+  // 初始化云环境
+  wx.cloud.init({
+    env: "cloud1-3grnvsv94a3d9683"
+  });
+},
+```
+
+### 5-1. 新建云函数
+
+#### 1）把云函数初始化为当前云环境，返回数据，上传并部署到云环境。以后每次修改到云函数都需要
+
+重新上传并部署
+
+![](./assets/md/%E5%88%9B%E5%BB%BA%E4%BA%91%E5%87%BD%E6%95%B0.PNG)
+
+![](./assets/md/%E5%88%87%E6%8D%A2%E5%BD%93%E5%89%8D%E7%8E%AF%E5%A2%83.PNG)
+
+![](./assets/md/%E4%BA%91%E5%87%BD%E6%95%B0data.PNG)
+
+![](./assets/md/%E4%B8%8A%E4%BC%A0%E4%BA%91%E5%87%BD%E6%95%B0.PNG)
+
+#### 2）调用云函数，云函数接收参数
+
+![](./assets/md/%E8%B0%83%E7%94%A8%E4%BA%91%E5%87%BD%E6%95%B0.PNG)
+
+![](./assets/md/%E4%BA%91%E5%87%BD%E6%95%B0%E8%8E%B7%E5%8F%96%E5%8F%82%E6%95%B0.PNG)
+
+### 5-2. 新建云数据库
+
+#### 1.新建表
+
+![](./assets/md/%E6%96%B0%E5%BB%BA%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93.PNG)
+
+#### 2.添加记录，字段
+
+![](./assets/md/%E6%B7%BB%E5%8A%A0%E8%AE%B0%E5%BD%95.PNG)
+
+![](./assets/md/%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5.PNG)
+
+#### 3.连接云数据库
+
+```js
+// 连接云数据库
+const db = wx.cloud.database({
+  env: 'cloud1-3grnvsv94a3d9683',
+});
+const USER = db.collection('user');
+
+getData() {
+  // 单条查询
+  USER.doc({}).get()
+  .then(res => {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+  // 查询所有数据，where内可带条件查询
+  USER.where({}).get()
+    .then(res => {
+      // console.log(res)
+      this.setData({
+        data: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err)
+    });
+},
+
+handleAdd() {
+  const user1 = {
+    name: "菜菜",
+    age: 20,
+    pwd: "56789"
+  };
+  USER.add({
+      data: user1
+    })
+    .then(res => {
+      if (res?.errMsg === 'collection.add:ok') {
+        this.getData();
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+},
+handleEdit(evt) {
+  USER.where({
+      _id: evt.currentTarget.dataset.id
+    })
+    .update({
+      data: {
+        name: '秋神'
+      }
+    })
+    .then(res => {
+      if(res?.errMsg === "collection.update:ok"){
+        this.getData();
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    });
+},
+
+handleDel(evt) {
+  USER.where({
+    _id: evt.currentTarget.dataset.id
+  })
+  .remove()
+  .then(res => {
+    if(res?.errMsg === "collection.remove:ok"){
+      this.getData();
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  });
+},
+```
+
+### 5-3. 新建云存储，可以直接使用这个图片链接
+
+![](<./assets/md/%E6%96%B0%E5%BB%BA%E4%BA%91%E5%AD%98%E5%82%A8%20(2).png>)
